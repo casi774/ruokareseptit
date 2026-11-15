@@ -1,0 +1,32 @@
+<h1>Uusi resepti</h1>
+
+<form>
+	<div>
+		<label for="name">Nimi</label>
+		<input type="text" id="name" name="name" required>
+	</div>
+
+	<div>
+		<label for="description">Kuvaus</label>
+		<textarea id="description" name="description" rows="6"></textarea>
+	</div>
+
+	<fieldset>
+		<legend>Erityisruokavaliot</legend>
+		<label><input type="checkbox" name="diet" value="vegan"> Vegaaninen</label>
+		<label><input type="checkbox" name="diet" value="gluten-free"> Gluteeniton</label>
+		<label><input type="checkbox" name="diet" value="lactose-free"> Laktoositon</label>
+	</fieldset>
+
+	<div>
+		<label for="food-type">Ruokalaji</label>
+		<select id="food-type" name="food_type" required>
+			<option value="" disabled selected>Valitse ruokalaji</option>
+			<option value="starter">Alkuruoka</option>
+			<option value="main-dish">Pääruoka</option>
+			<option value="dessert">Jälkiruoka</option>
+		</select>
+	</div>
+
+	<button type="submit">Lisää resepti</button>
+</form>

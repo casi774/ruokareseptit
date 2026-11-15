@@ -13,3 +13,11 @@ def register():
 @app.route('/login')
 def login():
     return render_template("login.html")
+
+@app.route('/new_recipe')
+def new_recipe():
+    return render_template("new_recipe.html")
+
+@app.route('/recipes')
+def recipes():
+    return render_template("recipes.html")

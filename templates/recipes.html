@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>All recipes</title>
+	<style>
+		body { margin: 0; padding: 2rem 1rem; font-family: system-ui, sans-serif; color: #222; background: #f7f7f5; }
+		main { max-width: 900px; margin: 0 auto; }
+		h1 { margin-top: 0; }
+		.search { display: flex; gap: .5rem; margin: 1.5rem 0; }
+		.search input { flex: 1; min-width: 0; padding: .75rem; border: 1px solid #bbb; border-radius: 4px; font: inherit; }
+		.search button { padding: .75rem 1rem; border: 0; border-radius: 4px; color: white; background: #286b45; font: inherit; cursor: pointer; }
+		.recipes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+		.recipe { padding: 1rem; border: 1px solid #ddd; border-radius: 6px; background: white; }
+		.recipe h2 { margin: 0 0 .5rem; font-size: 1.2rem; }
+		.recipe p { margin: .4rem 0; }
+		.muted { color: #666; }
+	</style>
+</head>
+<body>
+	<main>
+		<h1>All recipes</h1>
+
+		<form class="search" method="get" role="search">
+			<label for="recipe-search" class="muted" style="position:absolute;left:-10000px;">Search recipes</label>
+			<input id="recipe-search" type="search" name="q" placeholder="Search recipes…" value="{{ request.GET.q|default:'' }}">
+			<button type="submit">Search</button>
+		</form>
+
+		<section class="recipes" aria-label="Recipes">
+			{% for recipe in recipes %}
+				<article class="recipe">
+					<h2>{{ recipe.title|default:recipe.name }}</h2>
+					{% if recipe.description %}<p>{{ recipe.description }}</p>{% endif %}
+					{% if recipe.user %}<p class="muted">Posted by {{ recipe.user.username }}</p>{% endif %}
+				</article>
+			{% empty %}
+				<p>No recipes found.</p>
+			{% endfor %}
+		</section>
+	</main>
+</body>
+</html>
