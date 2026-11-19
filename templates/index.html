@@ -3,11 +3,17 @@
     <h1>
         Ruokareseptit
     </h1>
-    <p>
-        <a href="/register">Rekisteröidy</a>
-        <a href="/login">Kirjaudu sisään</a>
-        <a href="/logout">Kirjaudu ulos</a>
-    </p>
+    {% if session.get('username') %}
+        <p role="status">Olet kirjautunut sisään käyttäjänä <strong>{{ session['username'] }}</strong>.</p>
+        <form action="{{ url_for('logout') }}" method="post">
+            <button type="submit">Kirjaudu ulos</button>
+        </form>
+    {% else %}
+        <p>
+            <a href="{{ url_for('register') }}">Rekisteröidy</a>
+            <a href="{{ url_for('login') }}">Kirjaudu sisään</a>
+        </p>
+    {% endif %}
     <h2><a href="/recipes">Reseptit</a></h2>
     <h3><a href="/new_recipe">Uusi resepti</a></h3>
 </html>

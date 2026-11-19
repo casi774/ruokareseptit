@@ -8,7 +8,10 @@
 <body>
 	<main>
 		<h1>Kirjaudu sisään</h1>
-		<form method="post">
+		{% for message in get_flashed_messages() %}
+			<p role="alert">{{ message }}</p>
+		{% endfor %}
+		<form action="/login" method="post">
 			<p>
 				<label for="username">Käyttäjätunnus</label><br>
 				<input id="username" name="username" type="text" autocomplete="username" required>

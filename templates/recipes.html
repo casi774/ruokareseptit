@@ -33,6 +33,8 @@
 				<article class="recipe">
 					<h2>{{ recipe.title|default:recipe.name }}</h2>
 					{% if recipe.description %}<p>{{ recipe.description }}</p>{% endif %}
+					{% if recipe.ingredients %}<p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>{% endif %}
+					{% if recipe.instructions %}<p><strong>Instructions:</strong> {{ recipe.instructions }}</p>{% endif %}
 					{% if recipe.user %}<p class="muted">Posted by {{ recipe.user.username }}</p>{% endif %}
 				</article>
 			{% empty %}
