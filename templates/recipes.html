@@ -8,6 +8,11 @@
 <body>
 	<main>
 		<h1>Reseptit</h1>
+		<h3>Etsi resepti</h3>
+		<form action="{{ url_for('recipes') }}" method="get">
+			<input type="text" name="query" value="{{ query or '' }}">
+			<button type="submit">Hae</button>
+		</form>
 		<section aria-label="Reseptit">
 		{% if recipes %}
 			{% for recipe in recipes %}

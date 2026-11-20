@@ -179,17 +179,38 @@ def new_recipe():
 
 @app.route('/recipes')
 def recipes():
+    query = request.args.get('query', '').strip()
     connection = get_db_connection()
-    recipes = connection.execute(
-        '''SELECT r.recipe_id, r.title, r.description, r.instructions, r.user_id,
-                  r.category, r.diets, u.username
-           FROM recipes r
-           JOIN users u ON u.id = r.user_id
-           ORDER BY r.recipe_id DESC'''
-    ).fetchall()
+    if query:
+        escaped_query = (
+            query.replace('\\', '\\\\').replace('%', '\\%').replace('_', '\\_')
+        )
+        search = f'%{escaped_query}%'
+        recipes = connection.execute(
+            '''SELECT r.recipe_id, r.title, r.description, r.instructions, r.user_id,
+                      r.category, r.diets, u.username
+               FROM recipes r
+               JOIN users u ON u.id = r.user_id
+               WHERE r.title LIKE ? ESCAPE '\\'
+                  OR r.description LIKE ? ESCAPE '\\'
+                  OR r.instructions LIKE ? ESCAPE '\\'
+                  OR r.category LIKE ? ESCAPE '\\'
+                  OR r.diets LIKE ? ESCAPE '\\'
+               ORDER BY r.recipe_id DESC''',
+            [search] * 5
+        ).fetchall()
+    else:
+        recipes = connection.execute(
+            '''SELECT r.recipe_id, r.title, r.description, r.instructions, r.user_id,
+                      r.category, r.diets, u.username
+               FROM recipes r
+               JOIN users u ON u.id = r.user_id
+               ORDER BY r.recipe_id DESC'''
+        ).fetchall()
     connection.close()
     return render_template(
-        "recipes.html", recipes=recipes, current_user_id=session.get('user_id')
+        "recipes.html", recipes=recipes, current_user_id=session.get('user_id'),
+        query=query
     )
 
 @app.route('/recipes/<int:recipe_id>/edit', methods=['GET', 'POST'])
