@@ -5,9 +5,11 @@ CREATE TABLE users (
 );
 CREATE TABLE recipes (
     recipe_id INTEGER PRIMARY KEY,
-        title TEXT,
-        description TEXT,
-        instructions TEXT,
-        user_id INTEGER,
-        FOREIGN KEY (user_id) REFERENCES users(id)
+    title TEXT NOT NULL,
+    description TEXT,
+    instructions TEXT,
+    category TEXT,
+    diets TEXT,
+    user_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );

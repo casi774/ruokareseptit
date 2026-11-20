@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Muokkaa reseptiä</title>
+</head>
+<body>
+	<main>
+		<h1>Muokkaa reseptiä</h1>
+		{% for message in get_flashed_messages() %}
+			<p role="alert">{{ message }}</p>
+		{% endfor %}
+		<form method="post">
+			<div>
+				<label for="name">Nimi</label>
+				<input type="text" id="name" name="name" value="{{ request.form.get('name', recipe['title']) }}" required>
+			</div>
+
+			<div>
+				<label for="description">Kuvaus</label>
+				<textarea id="description" name="description" rows="6">{{ request.form.get('description', recipe['description'] or '') }}</textarea>
+			</div>
+
+			<div>
+				<label for="instructions">Valmistusohje</label>
+				<textarea id="instructions" name="instructions" rows="8">{{ request.form.get('instructions', recipe['instructions'] or '') }}</textarea>
+			</div>
+
+			{% set selected_diets = request.form.getlist('diet') if request.method == 'POST' else (recipe['diets'] or '').split(',') %}
+			<fieldset>
+				<legend>Erityisruokavaliot</legend>
+				<label><input type="checkbox" name="diet" value="vegan" {% if 'vegan' in selected_diets %}checked{% endif %}> Vegaaninen</label>
+				<label><input type="checkbox" name="diet" value="gluten-free" {% if 'gluten-free' in selected_diets %}checked{% endif %}> Gluteeniton</label>
+				<label><input type="checkbox" name="diet" value="lactose-free" {% if 'lactose-free' in selected_diets %}checked{% endif %}> Laktoositon</label>
+			</fieldset>
+
+			<div>
+				<label for="food-type">Ruokalaji</label>
+				{% set selected_category = request.form.get('food_type', recipe['category'] or '') %}
+				<select id="food-type" name="food_type" required>
+					<option value="" disabled {% if not selected_category %}selected{% endif %}>Valitse ruokalaji</option>
+					<option value="starter" {% if selected_category == 'starter' %}selected{% endif %}>Alkuruoka</option>
+					<option value="main-dish" {% if selected_category == 'main-dish' %}selected{% endif %}>Pääruoka</option>
+					<option value="dessert" {% if selected_category == 'dessert' %}selected{% endif %}>Jälkiruoka</option>
+				</select>
+			</div>
+
+			<button type="submit">Tallenna muutokset</button>
+		</form>
+		<p><a href="{{ url_for('recipes') }}">Takaisin resepteihin</a></p>
+	</main>
+</body>
+</html>
