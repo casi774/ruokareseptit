@@ -8,3 +8,5 @@
 * Käyttäjäsivu näyttää käyttäjän lisäämien reseptien määrän sekä listan kaiksita käyttäjän resepteistä.
 * Käyttäjä pystyy luokittelemaan reseptejä seuraaviin luokkiin: alkuruoka, pääruoka tai jälkiruoka. Käyttäjä voi myös antaa ruokavalioon liittyviä luokituksia reseptille: laktoositon, gluteeniton tai vegaaninen.
 * Käyttäjä pystyy kommentoimaan reseptejä sekä arvostelemaan niitä antamalla arvosanan 1-10. Reseptistä näytetään kommentit sekä keskimääräinen arvosana.
+
+Asenna ensin flask komenolla "pip3 install flask". Sen jälkeen sovelluksen saa käyntiin komenolla "flask run".
